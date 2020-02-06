@@ -1,15 +1,20 @@
 const http = require('http')
 const { exec } = require('child_process')
 
-exec('bitcoin-cli getblockcount', (err, stdout) => {
-  if (err) {
-    return
-  }
-  console.log(`stdout: ${stdout}`)
-  console.log(`err: ${err}`)
-})
+
 
 http.createServer(function (req, res) {
-  res.write()
+
+  let blockcount
+  exec('bitcoin-cli getblockcount', (err, stdout) => {
+    if (err) {
+      return
+    }
+    console.log(`blockcount: ${stdout}`)
+    console.log(`err: ${err}`)
+    blockcount === stdout
+  })
+
+  res.write(blockcount)
   res.end()
 }).listen(8080)
