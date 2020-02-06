@@ -1,8 +1,6 @@
 const http = require('http')
 const { exec } = require('child_process')
 
-
-while ('')
 exec('bitcoin-cli getblockcount', (err, stdout) => {
   if (err) {
     return
