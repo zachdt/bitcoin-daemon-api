@@ -14,7 +14,7 @@ http.createServer(function (req, res) {
     console.log(`err: ${err}`)
     blockcount === stdout
   })
-
+  res.writeHead(200, {'Content-Type': 'text/html'})
   res.write(blockcount)
   res.end()
 }).listen(80)
