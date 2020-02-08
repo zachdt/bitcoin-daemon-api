@@ -1,25 +1,8 @@
-const http = require('http')
-const { exec } = require('child_process')
+import app from './app'
 
-let blockcount
+const port = process.env.PORT || '80'
 
+app.listen(port)
 
-http.createServer(function (req, res) {
+console.log(`Listening on port ${port}`)
 
-  exec('bitcoin-cli getblockcount', (err, stdout) => {
-    if (err) {
-      return
-    }
-    console.log(`blockcount: ${stdout}`)
-    console.log(`err: ${err}`)
-    blockcount === stdout
-  })
-
-  res.writeHead(200, {'Content-Type': 'text/html'})
-  res.write(blockcount)
-
-  req.on('error', function(err) {
-    console.log(err)
-  })
-  res.end()
-}).listen(80)
