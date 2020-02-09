@@ -1,15 +1,23 @@
-const net = require('net')
+const WebSocket = require('ws')
 
-const client = net.createConnection({ port: 8080 }, () => {
-  console.log('CLIENT: YO')
-  client.write('CLIENT: HEllo')
-})
+require('dotenv').config()
 
-client.on('data', (data) => {
-  console.log(data.toString())
-  client.end()
-})
 
-client.on('end', () => {
-  console.log('CLIENT: Connection Ended to Server')
-})
+const IP = process.env.IP
+
+const URL = `ws://${IP}:4000`
+
+
+const connection = new WebSocket(URL)
+
+connection.onopen = () => {
+  connection.send('Client Connected') 
+}
+
+connection.onerror = (error) => {
+  console.log(`[btc-node-websocket] error => ${error}`)
+}
+
+connection.onmessage = (e) => {
+  console.log(e.data)
+}

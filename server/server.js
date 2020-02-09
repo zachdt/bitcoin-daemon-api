@@ -1,8 +1,11 @@
-import app from './app'
+const WebSocket = require('ws')
 
-const port = process.env.PORT || '80'
+const wss = new WebSocket.Server({ port: 4000 })
 
-app.listen(port)
+wss.on('connection', (ws) => {
+  ws.on('message', (message) => {
+    console.log( `[btc-node-websocket] => ${message}`)
+  })
 
-console.log(`Listening on port ${port}`)
-
+  ws.send('The server says hi')
+})
