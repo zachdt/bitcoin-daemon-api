@@ -4,7 +4,7 @@ const wss = new WebSocket.Server({ port: 4000 })
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    console.log( `[btc-node-websocket] => ${message}`)
+    console.log( `[btc-node-websocket-server] => ${message}`)
   })
 
   ws.send('The server says hi')
