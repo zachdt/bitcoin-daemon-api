@@ -6,7 +6,7 @@ let method = process.argv.length < 4 ? "getinfo" : process.argv[4]
 
 let options = {
     url: "http://localhost:8332",
-    method: "post",
+    method: "get",
     headers:
     { 
      "content-type": "text/plain"
@@ -22,6 +22,6 @@ request(options, (error, response, body) => {
     if (error) {
         console.error('An error has occurred: ', error);
     } else {
-        console.log('Post successful: response: ', body);
+        console.log('GET successful: ', body);
     }
 })
