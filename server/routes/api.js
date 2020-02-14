@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router()
 var request = require("request")
 
+const jsonpack = require("jsonpack")
+
 const dotenv = require("dotenv")
 dotenv.config()
 
@@ -149,7 +151,7 @@ router.get("/getpeerinfo", (req, res) => {
   request(options, callback)
 })
 
-
+// COMPRESSED METHODS
 router.get("/getrawmempool", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getrawmempool","params":[]}`
   var options = {
@@ -158,10 +160,10 @@ router.get("/getrawmempool", (req, res) => {
     headers: headers,
     body: dataString
   }
-  
+
   callback = (error, response, body) => {
     if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
+      const data = jsonpack.pack(JSON.parse(body))
       res.send(data)
     }
   }
@@ -231,6 +233,7 @@ router.get("/getrawtransaction/:id", (req, res) => {
   request(options, callback)
 })
 
+
 router.get("/decoderawtransaction/:hex", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"decoderawtransaction","params":["${
     req.params.hex
@@ -250,5 +253,7 @@ router.get("/decoderawtransaction/:hex", (req, res) => {
   }
   request(options, callback)
 })
+
+
 
 module.exports = router
