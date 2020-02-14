@@ -2,7 +2,6 @@ const express = require("express")
 const router = express.Router()
 var request = require("request")
 
-const jsonpack = require("jsonpack")
 
 const dotenv = require("dotenv")
 dotenv.config()
@@ -163,7 +162,7 @@ router.get("/getrawmempool", (req, res) => {
 
   callback = (error, response, body) => {
     if (!error && response.statusCode == 200) {
-      const data = jsonpack.pack(JSON.parse(body))
+      const data = BSON.serialize(JSON.parse(body))
       res.send(data)
     }
   }
