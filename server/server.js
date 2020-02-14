@@ -1,11 +1,14 @@
-const WebSocket = require('ws')
+const express = require("express")
+const bodyParser = require("body-parser")
+const rpcMethods = require("./routes/api")
 
-const wss = new WebSocket.Server({ port: 4000 })
+const app = express()
 
-wss.on('connection', (ws) => {
-  ws.on('message', (message) => {
-    console.log( `[btc-node-websocket-server] => ${message}`)
-  })
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-  ws.send('The server says hi')
-})
+app.use("/api", rpcMethods)
+
+const port = process.env.PORT || 4000
+
+server = app.listen(port, () => console.log(`Server running on port ${port}`))
