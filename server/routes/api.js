@@ -2,8 +2,7 @@ const express = require("express")
 const router = express.Router()
 var request = require("request")
 
-const BSON = require('bson')
-
+const getBlockCount = require("./methods/getBlockCount")
 
 const dotenv = require("dotenv")
 dotenv.config()
@@ -18,26 +17,10 @@ const headers = {
 //Test Route
 router.get("/test", (req, res) => res.json({ msg: "Server Active"}))
 
-
 // VOID RPC METHODS
 router.get("/getblockcount", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getBlockCount(req, res)
 })
-
 
 router.get("/getbestblockhash", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getbestblockhash","params":[]}`
@@ -152,7 +135,7 @@ router.get("/getpeerinfo", (req, res) => {
   request(options, callback)
 })
 
-// COMPRESSED METHODS
+// COMPRESSED METHODS - NVM, CANT COMPRESS HASHES!!!
 router.get("/getrawmempool", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getrawmempool","params":[]}`
   var options = {
@@ -164,12 +147,13 @@ router.get("/getrawmempool", (req, res) => {
 
   callback = (error, response, body) => {
     if (!error && response.statusCode == 200) {
-      const data = BSON.serialize(JSON.parse(body))
+      const data = JSON.parse(body)
       res.send(data)
     }
   }
   request(options, callback)
 })
+
 
 // 1 ARG RPC METHODS 
 router.get("/getblockhash/:index", (req, res) => {
