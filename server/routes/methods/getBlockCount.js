@@ -8,6 +8,9 @@ dotenv.config()
 const USER = process.env.RPC_USER
 const PASS = process.env.RPC_PASSWORD
 
+const headers = {
+  "content-type": "text/plain"
+}
 
 const getBlockCount = (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
