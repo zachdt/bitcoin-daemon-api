@@ -55,7 +55,7 @@ async function getRawMempool (req, res) {
   console.log(block)
   console.log(currBlock)
 
-  if (newBlock(block, curr)) {
+  if (newBlock(block, currBlock)) {
     block = currBlock
 
     callback = (error, response, body) => {
