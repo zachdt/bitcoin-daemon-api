@@ -10,27 +10,31 @@ const headers = {
   "content-type": "text/plain"
 }
 
-async function blockCount() {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  Promise(callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      return data
+function blockCount() {
+  return new Promise ( resolve => {
+    var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
+    var options = {
+      url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
+      method: "POST",
+      headers: headers,
+      body: dataString
     }
+    
+    callback = (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+        const data = JSON.parse(body)
+        resolve(data)
+      } else {
+        resolve(error)
+      }
+    }
+    request(options, callback)
   })
-  await request(options, callback)
 }
 
-const getRawMempool = (req, res) => {
+async function getRawMempool (req, res) {
 
-  let currBlock = blockCount()
+  let currBlock = await blockCount()
   console.log(currBlock)
 
 
