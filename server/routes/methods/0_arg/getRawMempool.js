@@ -10,7 +10,7 @@ const headers = {
   "content-type": "text/plain"
 }
 
-const blockCount = () => {
+async function blockCount() {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
   var options = {
     url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
@@ -19,13 +19,13 @@ const blockCount = () => {
     body: dataString
   }
   
-  callback = (error, response, body) => {
+  Promise(callback = (error, response, body) => {
     if (!error && response.statusCode == 200) {
       const data = JSON.parse(body)
       return data
     }
-  }
-  request(options, callback)
+  })
+  await request(options, callback)
 }
 
 const getRawMempool = (req, res) => {
