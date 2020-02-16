@@ -2,7 +2,15 @@ const express = require("express")
 const router = express.Router()
 var request = require("request")
 
-const getBlockCount = require("./methods/getBlockCount")
+const getBlockCount = require("./methods/0_arg/getBlockCount")
+const getBestBlockHash = require("./methods/0_arg/getBestBlockHash")
+const getConnectionCount = require("./methods/0_arg/getConnectionCount")
+const getDifficulty = require("./methods/0_arg/getDifficulty")
+const getBlockchainInfo = require("./methods/0_arg/getBlockchainInfo")
+const getMiningInfo = require("./methods/0_arg/getMiningInfo")
+const getPeerInfo = require("./methods/0_arg/getPeerInfo")
+const getRawMempool = require("./methods/0_arg/getRawMempool")
+
 
 const dotenv = require("dotenv")
 dotenv.config()
@@ -23,135 +31,32 @@ router.get("/getblockcount", (req, res) => {
 })
 
 router.get("/getbestblockhash", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getbestblockhash","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getBestBlockHash(req, res)
 })
-
 
 router.get("/getconnectioncount", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getconnectioncount","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getConnectionCount(req, res)
 })
-
 
 router.get("/getdifficulty", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getdifficulty","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getDifficulty(res, req)
 })
-
 
 router.get("/getblockchaininfo", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getBlockchainInfo(res, req)
 })
-
 
 router.get("/getmininginfo", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getmininginfo","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getMiningInfo(res, req)
 })
 
-
 router.get("/getpeerinfo", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getpeerinfo","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-  
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getPeerInfo(res, req)
 })
 
 // COMPRESSED METHODS - NVM, CANT COMPRESS HASHES!!!
 router.get("/getrawmempool", (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getrawmempool","params":[]}`
-  var options = {
-    url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
-    method: "POST",
-    headers: headers,
-    body: dataString
-  }
-
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      res.send(data)
-    }
-  }
-  request(options, callback)
+  getRawMempool(res, req)
 })
 
 

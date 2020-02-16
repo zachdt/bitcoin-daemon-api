@@ -1,5 +1,3 @@
-const express = require("express")
-const router = express.Router()
 var request = require("request")
 
 const dotenv = require("dotenv")
@@ -12,8 +10,8 @@ const headers = {
   "content-type": "text/plain"
 }
 
-const getBlockCount = (req, res) => {
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
+const getBestBlockHash = (req, res) => {
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getbestblockhash","params":[]}`
   var options = {
     url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
     method: "POST",
@@ -30,4 +28,4 @@ const getBlockCount = (req, res) => {
   request(options, callback)
 }
 
-module.exports = getBlockCount
+module.exports = getBestBlockHash
