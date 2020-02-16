@@ -6,9 +6,6 @@ dotenv.config()
 const USER = process.env.RPC_USER
 const PASS = process.env.RPC_PASSWORD
 
-let prev
-let current
-
 const headers = {
   "content-type": "text/plain"
 }
@@ -25,7 +22,7 @@ const blockCount = () => {
   callback = (error, response, body) => {
     if (!error && response.statusCode == 200) {
       const data = JSON.parse(body)
-      return data.result
+      return data
     }
   }
   request(options, callback)
