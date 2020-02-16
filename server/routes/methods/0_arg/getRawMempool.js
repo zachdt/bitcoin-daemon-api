@@ -10,7 +10,16 @@ const headers = {
   "content-type": "text/plain"
 }
 
-function blockCount() {
+let block
+
+const newBlock = (last, curr) => {
+  if (last === null || curr !== last) {
+    return true
+  }
+  return false
+}
+
+const blockCount = () => {
   return new Promise ( resolve => {
     var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`
     var options = {
@@ -33,11 +42,6 @@ function blockCount() {
 }
 
 async function getRawMempool (req, res) {
-
-  let currBlock = await blockCount()
-  console.log(currBlock)
-
-
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getrawmempool","params":[]}`
   var options = {
     url: `http://${USER}:${PASS}@127.0.0.1:8332/`,
@@ -46,13 +50,35 @@ async function getRawMempool (req, res) {
     body: dataString
   }
 
-  callback = (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      const data = JSON.parse(body)
-      //res.send(data)
+
+  let currBlock = await blockCount()
+  console.log(block)
+  console.log(currBlock)
+
+  if (newBlock(block, curr)) {
+    block = currBlock
+
+    callback = (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+        const data = JSON.parse(body)
+        res.send('old block')
+      }
     }
+    request(options, callback)
+
+  } else {
+    callback = (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+        const data = JSON.parse(body)
+        res.send(currBlock)
+      }
+    }
+    request(options, callback)
   }
-  request(options, callback)
+
+
+
+
 }
 
 module.exports = getRawMempool
