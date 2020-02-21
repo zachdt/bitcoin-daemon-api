@@ -61,7 +61,7 @@ async function getRawMempool (req, res) {
     callback = (error, response, body) => {
       if (!error && response.statusCode == 200) {
         const data = JSON.parse(body)
-        res.send('old block')
+        res.send(data)
       }
     }
     request(options, callback)
